@@ -2,19 +2,21 @@ import awesome, { Component } from './lib/awesome';
 
 const app = awesome();
 
-app.use(new Component('test', function () {
+app.use('test', function () {
+  this.foo = 'TESTE';
+
   this.setFoo = function (foo) {
     this.foo = foo;
   };
 
-  return {
-    foo: 'TESTE'
+  this.$get = function () {
+    return { foo: this.foo };
   };
-}));
-
-app.init(function () {
-  this.get('test').setFoo('LOL');
 });
 
-let x = app.configure('test');
-console.log(x)
+app.init(function () {
+  var x = this.configure('test');
+  x.setFoo('aldksjalsdkjaslkdjas');
+});
+
+console.log(app.get('test'));
